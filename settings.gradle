@@ -1,0 +1,3 @@
+rootProject.name = "Block Blast Pro"
+include ':app'
+project(':app').projectDir = new File('Block blast Pro')

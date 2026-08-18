@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Block Blast Pro - Play Online</title>
+    <meta name="description" content="Play Block Blast Pro online! Premium puzzle gameplay, line clears, combos, AI hints, undo, daily challenges, and high scores.">
+    <meta name="theme-color" content="#0f1219">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.json">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8347952847217732"
+         crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Animated Aurora Background -->
+    <div class="aurora-bg" aria-hidden="true">
+        <div class="aurora-blob a1"></div>
+        <div class="aurora-blob a2"></div>
+        <div class="aurora-blob a3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header Banner -->
+        <header class="game-header" role="banner">
+            <div class="brand">
+                <div class="logo-icon" aria-hidden="true">&#x1F9E9;</div>
+                <h1>BLOCK BLAST <span>PRO</span></h1>
+            </div>
+
+            <div class="stats-banner" role="region" aria-label="Game statistics">
+                <div class="stat-card">
+                    <span class="stat-label">SCORE</span>
+                    <span class="stat-value" id="score-val" aria-live="polite">0</span>
+                </div>
+                <div class="stat-card gold">
+                    <span class="stat-label">BEST</span>
+                    <span class="stat-value" id="best-val">0</span>
+                </div>
+                <div class="stat-card fire">
+                    <span class="stat-label">STREAK</span>
+                    <span class="stat-value" id="streak-val">0x</span>
+                </div>
+                <div class="stat-card teal">
+                    <span class="stat-label">LEVEL</span>
+                    <span class="stat-value" id="level-val">1</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button id="sound-btn"       class="icon-btn" title="Toggle Sound"     aria-label="Toggle sound">&#x1F50A;</button>
+                <button id="theme-btn"       class="icon-btn" title="Change Theme"     aria-label="Change colour theme">&#x1F3A8;</button>
+                <button id="colorblind-btn"  class="icon-btn" title="Colour-blind Mode" aria-label="Toggle colour-blind mode">&#x1F441;</button>
+                <button id="daily-btn"       class="icon-btn" title="Daily Challenge"  aria-label="Play daily challenge">&#x1F4C5;</button>
+                <button id="leaderboard-btn" class="icon-btn" title="Leaderboard"      aria-label="View leaderboard">&#x1F3C6;</button>
+                <button id="help-btn"        class="icon-btn" title="How to Play"      aria-label="How to play tutorial">&#x2753;</button>
+                <button id="edit-btn"        class="icon-btn" title="Edit Board Mode"  aria-label="Toggle board edit mode">&#x270F;&#xFE0F;</button>
+                <button id="stats-open-btn"  class="icon-btn" title="Player Stats"     aria-label="Open player stats">&#x1F4CA;</button>
+                <button id="new-game-btn"    class="btn btn-primary"                   aria-label="Start new game">&#x1F504; New Game</button>
+            </div>
+        </header>
+
+        <!-- Mode Indicator Badge -->
+        <div id="mode-badge" class="mode-badge hidden" aria-live="polite">
+            <span class="mode-badge-dot"></span>
+            <span id="mode-badge-text">📅 DAILY CHALLENGE</span>
+            <button id="mode-badge-exit" class="mode-badge-exit" title="Exit Daily Mode">✕</button>
+        </div>
+
+        <!-- Main Workspace -->
+        <main class="game-layout" role="main">
+            <section class="board-section" aria-label="Game board">
+                <div class="canvas-wrapper">
+                    <canvas id="game-board" width="440" height="440"
+                            role="application"
+                            aria-label="Block Blast game grid. Click or drag to place pieces."
+                            tabindex="0"></canvas>
+                    <div id="combo-overlay"   class="combo-overlay"   aria-live="assertive" aria-atomic="true"></div>
+                    <div id="levelup-overlay" class="levelup-overlay" aria-live="assertive" aria-atomic="true"></div>
+                    <div id="newbest-overlay" class="newbest-overlay" aria-live="assertive" aria-atomic="true">&#x1F3C6; NEW BEST!</div>
+                    <!-- Particle canvas layered on top -->
+                    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+                    <!-- Why this move tooltip -->
+                    <div id="hint-tooltip" class="hint-tooltip hidden" aria-hidden="true"></div>
+                </div>
+
+                <!-- Combo Multiplier Badge -->
+                <div id="combo-badge" class="combo-badge hidden" aria-live="polite">
+                    <span class="combo-badge-label">COMBO</span>
+                    <span id="combo-badge-val" class="combo-badge-val">x1</span>
+                </div>
+
+                <!-- Hand Cards -->
+                <div class="hand-container" id="hand-container" role="group" aria-label="Piece hand - select a piece">
+                    <div class="hand-card" data-index="0" tabindex="0" role="button" aria-label="Hand piece 1"></div>
+                    <div class="hand-card" data-index="1" tabindex="0" role="button" aria-label="Hand piece 2"></div>
+                    <div class="hand-card" data-index="2" tabindex="0" role="button" aria-label="Hand piece 3"></div>
+                </div>
+
+                <!-- Ad Unit [2]: Square Display Ad (below hand, above action bar) -->
+                <div class="ad-unit-inline" aria-label="Advertisement">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-8347952847217732"
+                         data-ad-slot="6773516583"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="action-bar" role="toolbar" aria-label="Game actions">
+                    <button id="undo-btn"  class="btn btn-secondary" aria-label="Undo last move">&#x21A9; Undo</button>
+                    <button id="hint-btn"  class="btn btn-warning"   aria-label="Show AI hint">&#x1F4A1; AI Hint</button>
+                    <button id="auto-btn"  class="btn btn-success"   aria-label="Make AI auto move">&#x1F916; Auto Move</button>
+                    <button id="solve-btn" class="btn btn-purple"    aria-label="AI solve entire hand">&#x1F50D; AI Solve</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Status Toast Bar -->
+        <footer class="status-bar" role="status" aria-live="polite">
+            <span id="status-msg">Select a piece and click or drag onto the grid to play!</span>
+            <span class="keyboard-hint">&#x2328; 1/2/3 &middot; H=hint &middot; A=auto &middot; U=undo &middot; N=new</span>
+        </footer>
+
+        <!-- Ad Unit [1]: Horizontal Display Banner (bottom of app, full width) -->
+        <div id="ad-banner-container" class="ad-banner-slot" aria-label="Advertisement">
+            <div class="ad-banner-label">ADVERTISEMENT</div>
+            <ins class="adsbygoogle"
+                 style="display:block;width:100%"
+                 data-ad-client="ca-pub-8347952847217732"
+                 data-ad-slot="9963890350"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="game-over-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="game-over-title">
+        <div class="modal-card game-over-card">
+            <div class="modal-icon">&#x1F480;</div>
+            <h2 id="game-over-title">GAME OVER</h2>
+            <div class="modal-score-box">
+                <p>FINAL SCORE</p>
+                <h3 id="modal-score">0</h3>
+                <div id="modal-best-ribbon" class="best-ribbon hidden">&#x1F3C6; NEW BEST!</div>
+            </div>
+            <div class="modal-stats-row">
+                <div class="modal-stat"><span class="ms-label">LEVEL</span><span id="modal-level" class="ms-val">1</span></div>
+                <div class="modal-stat"><span class="ms-label">STREAK</span><span id="modal-streak" class="ms-val">0x</span></div>
+                <div class="modal-stat"><span class="ms-label">BLOCKS</span><span id="modal-blocks" class="ms-val">0</span></div>
+            </div>
+
+            <!-- Leaderboard Entry Form (shown when top score) -->
+            <div id="leaderboard-entry-box" class="leaderboard-entry-box hidden">
+                <p class="le-prompt">&#x1F31F; TOP 10 SCORE! Enter Initials:</p>
+                <div class="le-input-group">
+                    <input type="text" id="player-initials-input" maxlength="3" placeholder="PRO" aria-label="Enter 3-letter initials">
+                    <button id="save-initials-btn" class="btn btn-warning btn-sm">Save</button>
+                </div>
+            </div>
+
+            <div class="modal-btn-group">
+                <button id="modal-revive-btn" class="btn btn-warning btn-large" aria-label="Revive by watching ad">&#x1F3AC; Revive &amp; Blast Cells</button>
+                <button id="modal-share-btn" class="btn btn-secondary" aria-label="Share score">&#x1F4CB; Share</button>
+                <button id="modal-restart-btn" class="btn btn-primary btn-large" aria-label="Play again">&#x25B6; Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ad Player Simulation / Rewarded Video Modal -->
+    <div id="ad-player-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="Video Advertisement">
+        <div class="modal-card ad-card">
+            <div class="ad-header">
+                <span class="ad-badge">&#x1F4FA; SPONSORED AD</span>
+                <span id="ad-timer" class="ad-timer">Reward in 5s...</span>
+            </div>
+            <div class="ad-video-screen">
+                <div class="ad-spinner"></div>
+                <p id="ad-sponsor-text" class="ad-sponsor-text">Sample Video Advertisement</p>
+                <span class="ad-subtext">Google AdSense / CrazyGames / Poki H5 Ad Placeholder</span>
+            </div>
+            <div class="ad-footer">
+                <button id="ad-skip-btn" class="btn btn-secondary btn-sm" disabled>Skip Ad (5)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Modal -->
+    <div id="stats-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title">
+        <div class="modal-card">
+            <h2 id="stats-title">PLAYER STATS</h2>
+            <div class="stats-grid">
+                <div class="stat-item"><span class="stat-label">HIGH SCORE</span><span class="stat-value" id="best-val-modal">0</span></div>
+                <div class="stat-item"><span class="stat-label">MAX STREAK</span><span class="stat-value" id="max-streak-val">0x</span></div>
+                <div class="stat-item"><span class="stat-label">BLOCKS PLACED</span><span class="stat-value" id="total-placed-val">0</span></div>
+                <div class="stat-item"><span class="stat-label">GAMES PLAYED</span><span class="stat-value" id="games-played-val">0</span></div>
+                <div class="stat-item"><span class="stat-label">LINES CLEARED</span><span class="stat-value" id="total-lines-val">0</span></div>
+                <div class="stat-item"><span class="stat-label">MAX LEVEL</span><span class="stat-value" id="max-level-val">1</span></div>
+                <div class="stat-item"><span class="stat-label">PIECES / MIN</span><span class="stat-value" id="ppm-val">0</span></div>
+                <div class="stat-item"><span class="stat-label">AVG SCORE</span><span class="stat-value" id="avg-score-val">0</span></div>
+            </div>
+            <button id="stats-close-btn" class="btn btn-primary" aria-label="Close stats">Close</button>
+        </div>
+    </div>
+
+    <!-- Leaderboard Modal -->
+    <div id="leaderboard-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+        <div class="modal-card leaderboard-card">
+            <h2 id="lb-title">&#x1F3C6; TOP 10 SCORES</h2>
+            <div class="leaderboard-list" id="leaderboard-list" role="table" aria-label="Leaderboard list">
+                <!-- Generated by JS -->
+            </div>
+            <div class="modal-btn-group">
+                <button id="lb-reset-btn" class="btn btn-secondary btn-sm" aria-label="Reset leaderboard">Reset</button>
+                <button id="lb-close-btn" class="btn btn-primary" aria-label="Close leaderboard">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial / How to Play Overlay -->
+    <div id="tutorial-overlay" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="Tutorial guide">
+        <div class="modal-card tutorial-card">
+            <div id="tutorial-step-icon" class="tutorial-icon">&#x1F9E9;</div>
+            <h2 id="tutorial-title">HOW TO PLAY</h2>
+            <p id="tutorial-desc" class="tutorial-desc">Drag or click pieces into the 8x8 grid. Clear entire rows and columns to score combo blasts!</p>
+            <div class="tutorial-dots" id="tutorial-dots">
+                <span class="t-dot active"></span>
+                <span class="t-dot"></span>
+                <span class="t-dot"></span>
+            </div>
+            <div class="modal-btn-group">
+                <button id="tutorial-skip-btn" class="btn btn-secondary">Skip</button>
+                <button id="tutorial-next-btn" class="btn btn-primary">Next &#x2192;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Toast -->
+    <div id="share-toast" class="share-toast hidden" role="status" aria-live="polite">
+        &#x2705; Score copied to clipboard!
+    </div>
+
+    <!-- Ad Unit [3]: Relaxed / In-Article Ad (below game content, above footer) -->
+    <div class="ad-unit-relaxed" aria-label="Advertisement">
+        <div class="ad-banner-label">ADVERTISEMENT</div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-format="autorelaxed"
+             data-ad-client="ca-pub-8347952847217732"
+             data-ad-slot="2451429517"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

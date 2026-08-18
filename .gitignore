@@ -1,0 +1,22 @@
+# Gradle build outputs
+.gradle/
+build/
+*/build/
+bin/
+*/bin/
+out/
+*/out/
+
+# Local configuration
+local.properties
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+Thumbs.db
+*.log
+
+# Keystores
+*.jks
+*.keystore
