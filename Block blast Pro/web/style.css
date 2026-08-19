@@ -87,11 +87,12 @@ body {
     color: var(--text);
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     overflow-x: hidden;
     transition: background-color 0.4s ease;
-    padding: 12px;
+    padding: 16px 12px 32px;
 }
 
 /* ---------- Aurora Background ---------- */
@@ -146,14 +147,17 @@ body {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 740px;
+    max-width: 500px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 16px;
 }
 
 /* ---------- Header ---------- */
 .game-header {
+    width: 100%;
     background: var(--panel-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
