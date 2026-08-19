@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize Google Mobile Ads (AdMob)
         AdManager.getInstance().init(this);
+        FrameLayout adContainer = findViewById(R.id.ad_view_container);
+        if (adContainer != null) {
+            AdManager.getInstance().attachBanner(this, adContainer);
+        }
 
         loadGame();
         updateUI();

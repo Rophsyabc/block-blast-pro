@@ -147,12 +147,12 @@ body {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 500px;
+    max-width: 960px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 18px;
 }
 
 /* ---------- Header ---------- */
@@ -163,11 +163,11 @@ body {
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--panel-border);
     border-radius: var(--radius-lg);
-    padding: 14px 20px;
+    padding: 14px 28px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
     box-shadow: var(--shadow-glow);
     flex-wrap: wrap;
 }
@@ -309,6 +309,9 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
 }
 
 .board-section {
@@ -528,10 +531,12 @@ canvas#particle-canvas {
 
 /* ---------- Status Bar ---------- */
 .status-bar {
+    width: 100%;
+    max-width: 960px;
     background: var(--panel-bg);
     backdrop-filter: blur(12px);
     border: 1px solid var(--panel-border);
-    padding: 10px 20px;
+    padding: 12px 24px;
     border-radius: var(--radius-md);
     font-size: 13px;
     font-weight: 600;
@@ -957,16 +962,18 @@ canvas#particle-canvas {
 
 /* ---------- Banner Ad Slot ---------- */
 .ad-banner-slot {
+    width: 100%;
+    max-width: 960px;
     background: rgba(0, 0, 0, 0.4);
     border: 1px dashed var(--panel-border);
     border-radius: var(--radius-md);
-    padding: 8px 12px;
+    padding: 12px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 60px;
-    margin-top: 4px;
+    min-height: 90px;
+    margin-top: 8px;
     transition: all 0.3s ease;
 }
 
@@ -975,11 +982,11 @@ canvas#particle-canvas {
 }
 
 .ad-banner-label {
-    font-size: 8px;
+    font-size: 9px;
     font-weight: 800;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     color: var(--text-muted);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .ad-banner-content {
@@ -988,7 +995,7 @@ canvas#particle-canvas {
     justify-content: center;
     width: 100%;
     color: var(--text-muted);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -1004,9 +1011,9 @@ canvas#particle-canvas {
 /* Relaxed / in-article ad (full-width, below game) */
 .ad-unit-relaxed {
     width: 100%;
-    max-width: 900px;
-    margin: 16px auto 0;
-    padding: 6px 0;
+    max-width: 960px;
+    margin: 14px auto 0;
+    padding: 8px 0;
     text-align: center;
     overflow: hidden;
 }
