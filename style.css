@@ -330,15 +330,17 @@ body {
     border-radius: var(--radius-lg);
     border: 2px solid var(--panel-border);
     box-shadow: var(--shadow-glow);
-    display: inline-block;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 canvas#game-board {
     display: block;
     border-radius: var(--radius-md);
     cursor: pointer;
-    max-width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: auto !important;
     touch-action: none;
 }
 
@@ -1137,6 +1139,25 @@ canvas#particle-canvas {
 @media (max-width: 520px) {
     body { padding: 8px; }
 
+    .app-container {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .game-layout {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .board-section {
+        width: 100%;
+    }
+
+    .canvas-wrapper {
+        width: 100%;
+        padding: 8px;
+    }
+
     .game-header {
         padding: 10px 14px;
         gap: 8px;
@@ -1152,9 +1173,9 @@ canvas#particle-canvas {
 
     .hand-card { width: 100px; height: 88px; }
 
-    canvas#game-board { width: 100% !important; height: auto !important; }
+    canvas#game-board { width: 100% !important; height: 100% !important; }
 
-    canvas#particle-canvas { width: calc(100% - 24px) !important; height: calc(100% - 24px) !important; }
+    canvas#particle-canvas { width: calc(100% - 16px) !important; height: calc(100% - 16px) !important; top: 8px !important; left: 8px !important; }
 
     .action-bar { gap: 7px; }
 
@@ -1166,5 +1187,4 @@ canvas#particle-canvas {
 
     .lb-row { grid-template-columns: 28px 48px 40px 1fr 60px; font-size: 11px; padding: 6px 8px; }
 }
-
 

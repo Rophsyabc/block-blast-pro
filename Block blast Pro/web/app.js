@@ -586,7 +586,9 @@ class BlockBlastApp {
     _initResize() {
         const sync = () => {
             const wrapper = this.canvas.parentElement;
-            const avail   = wrapper.clientWidth - 24;
+            // On mobile, measure the viewport width minus body padding
+            const bodyPad = window.innerWidth <= 520 ? 16 : 24;
+            const avail   = Math.min(wrapper.clientWidth, window.innerWidth - bodyPad) - 24;
             const sz      = Math.min(440, avail);
             this.canvas.style.width  = sz + 'px';
             this.canvas.style.height = sz + 'px';
